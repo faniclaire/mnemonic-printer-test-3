@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import ReactDOM from 'react-dom/client';
 import * as d3 from 'd3';
 
 // --- TYPES & INTERFACES ---
@@ -380,8 +381,6 @@ const Zone4_Printer: React.FC<{ t: Translation, contribution: UserContribution, 
   );
 };
 
-
-
 const Zone5_Archive: React.FC<{ contribution: UserContribution; t: Translation }> = ({ contribution, t }) => {
   const [rot, setRot] = useState({ x: 20, y: 0 });
   const [zoom, setZoom] = useState(0.2);
@@ -446,4 +445,11 @@ const App: React.FC = () => {
     </div>
   );
 };
+
+// --- RENDER ---
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(<App />);
+}
+
 export default App;
