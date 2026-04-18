@@ -1,11 +1,9 @@
 // @ts-nocheck
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-
-// @ts-nocheck
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import ReactDOM from 'react-dom/client';
 import * as d3 from 'd3';
 
+// --- DELETE ANY OTHER "import" LINES BELOW THIS POINT ---
 // --- TYPES & INTERFACES ---
 type Language = 'EN' | 'FR';
 interface MemoryPoint {
