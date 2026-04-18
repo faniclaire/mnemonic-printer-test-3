@@ -1,9 +1,7 @@
 // @ts-nocheck
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
-import ReactDOM from 'react-dom/client';
 import * as d3 from 'd3';
 
-// --- DELETE ANY OTHER "import" LINES BELOW THIS POINT ---
 // --- TYPES & INTERFACES ---
 type Language = 'EN' | 'FR';
 interface MemoryPoint {
@@ -351,14 +349,12 @@ const Zone4_Printer: React.FC<{ t: Translation, contribution: UserContribution, 
 
   return (
     <div className="flex flex-col items-center gap-6">
-      <div className="print-preview-card">
+      <div className="print-preview-card" style={{ background: 'white', padding: '20px' }}>
         <svg 
           ref={svgRef}
           id="blueprint-svg" 
           viewBox="-20 -40 440 500" 
-          width="400" 
-          height="450" 
-          className="bg-white" 
+          style={{ background: 'white', display: 'block', margin: '20px auto', width: '400px', height: '400px' }}
         />
       </div>
       
@@ -374,10 +370,6 @@ const Zone4_Printer: React.FC<{ t: Translation, contribution: UserContribution, 
             className="group relative overflow-hidden px-10 py-4 border border-white/20 hover:border-white text-white transition-all uppercase text-[10px] bg-black tracking-[0.2em]"
           >
             <span className="relative z-10">{printing ? status : "Direct Print (BLE)"}</span>
-            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-            <span className="absolute inset-0 flex items-center justify-center text-black opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-               SEND DATA
-            </span>
           </button>
         </div>
         <p className="text-[9px] mono opacity-20 uppercase tracking-[0.3em] border-t border-zinc-900 pt-4">
@@ -387,6 +379,7 @@ const Zone4_Printer: React.FC<{ t: Translation, contribution: UserContribution, 
     </div>
   );
 };
+
 
 
 const Zone5_Archive: React.FC<{ contribution: UserContribution; t: Translation }> = ({ contribution, t }) => {
@@ -430,6 +423,14 @@ const App: React.FC = () => {
   const addMem = useCallback((p: MemoryPoint) => { setMems(x => [...x, p]); setCont(x => ({ ...x, spatialNodes: p.type==='light'?x.spatialNodes+1:x.spatialNodes, affectiveLinks: p.type==='sound'?x.affectiveLinks+1:x.affectiveLinks })); }, []);
   return (
     <div className="min-h-screen flex flex-col relative bg-[#050505] text-[#d1d1d1] font-serif overflow-x-hidden">
+      <style dangerouslySetInnerHTML={{ __html: `
+        body { background-color: #050505 !important; color: #d1d1d1 !important; font-family: serif !important; margin: 0; padding: 0; }
+        .mono { font-family: monospace !important; }
+        .no-print { display: block; }
+        @media print { .no-print { display: none !important; } }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+      ` }} />
       <nav className="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 pointer-events-none text-white">
         <div className="pointer-events-auto"><h1 className="text-2xl font-light tracking-widest mono">MNEMONIC ML SPACE</h1><p className="text-[10px] mono opacity-50">speculative mnemonic space</p></div>
         <button onClick={() => setLang(l => l==='EN'?'FR':'EN')} className="pointer-events-auto text-xs mono border border-zinc-800 px-3 py-1 bg-black/50">{lang === 'EN' ? 'FRANÇAIS' : 'ENGLISH'}</button>
@@ -446,15 +447,3 @@ const App: React.FC = () => {
   );
 };
 export default App;
-
-// (Make sure the part you paste includes the Zone4_Printer component)
-
-const rootElement = document.getElementById('root');
-if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
-       {/* Change 'App' below to whatever your main component name is */}
-      <App /> 
-    </React.StrictMode>
-  );
-}
